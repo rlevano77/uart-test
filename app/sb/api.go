@@ -1,0 +1,256 @@
+package sb
+
+/* Enable TEST_MODE in Support Board */
+func Enable_api_test_mode() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = menable_api_test_mode()
+	}
+	sb_mutex.Unlock()
+	return response, err
+}
+
+/* Disable TEST_MODE in Support Board */
+func Disable_api_test_mode() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mdisable_api_test_mode()
+	}
+	sb_mutex.Unlock()
+	return response, err
+}
+
+/* GET Support Board sensors data */
+func Read_Sensors() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mread_sensors()
+	}
+	sb_mutex.Unlock()
+	return response, err
+}
+
+// GET Support Board Poximity sensor data
+func Read_Proximity() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mread_proximity()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+// GET Support Board IAQ sensor data
+func Read_IAQ() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mread_iaq()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/* 
+	Set Support Board OFFSET
+	offset temperature in Fahrenheit e.g 11.4
+	use example : sb.Set_Offset(12.6)
+*/ 
+func Set_Offset(offset int32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_offset(offset)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+
+/* Get Support Board OFFSET X 10 */
+func Get_Offset() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_offset()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+
+/* RESET Cypress PSoC5 MCU */
+func PSOC5_Reset() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mpsoc5_reset()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/* Get Cypress PSoC5 Firmware Version */
+func Get_psoc5_version() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_psoc5_version()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/* Get Cypress PSoC5 Die Temperature */
+func Get_psoc5_die_temp() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_psoc5_die_temp()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Set Support Board BEEP
+	duration in milliseconds
+	use example : sb.Beep(1000)  #Beep for 1 second = 1000 ms
+*/
+func Beep(duration int32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mbeep(duration)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 1
+	Report HVAC status
+*/
+func Get_Status() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_status()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 2
+	Set HVAC config setting
+	This function receives an object (dict) with 
+	the next signature e.g 
+	config = {
+		'heat_aux_type': 'gas/oil',
+		'heat_stage': '1 stage AUX heat',
+		'cool_stage': '1-stage',   				 				
+		'heat_pump_config': 'B'
+	}
+*/
+func Set_config_settings(config SSetConfigSettings) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_config_settings(config)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 2
+	Get HVAC config setting
+*/
+func Get_config_settings() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_config_settings()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 3
+	Set Mode of operation
+*/
+func Set_Mode(mode string) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_mode(mode)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 3
+	Get Mode of operation
+*/
+func Get_Mode() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_mode()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 4
+	Set Fan setting
+*/
+func Set_Fan(fan string) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_fan(fan)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 4
+	Get Fan setting
+*/
+func Get_Fan() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_fan()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
