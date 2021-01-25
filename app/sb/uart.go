@@ -6,6 +6,7 @@ import (
 	"bufio"
 	"sync"
 	"bytes"
+	"strings"
 	"log"
 	"errors"
 )
@@ -336,6 +337,35 @@ func mset_target(t_heat float32, t_cool float32) ([]byte,error){
 func mget_target() ([]byte,error){
 	b, err := json.Marshal(SCmd{
 		Uri:	TSTAT_TARGET,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mset_time(hour int32, minutes int32, weekday string) ([]byte,error){
+	p, err := json.Marshal(SSetTime{
+		Hour: hour,
+		Minutes: minutes,
+		Weekday: strings.ToLower(weekday),
+	})
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_TIME_WEEKDAY,
+		Cmd:  POST,
+		Payload: string(p),
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mget_time() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_TIME_WEEKDAY,
 		Cmd:  GET,
 		Payload: "",
 	})

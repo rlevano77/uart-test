@@ -220,6 +220,17 @@ func main() {
 		}
 		log.Printf("Get_target: %s   %v   errors: %d",string(read_target), time.Since(start), sb.Err_cnt)	
 
+		set_time, err := sb.Set_time(16,35,"Monday")
+		if err != nil {
+			log.Println("Error setting time")	
+		}
+		log.Printf("Set_time: %s   %v   errors: %d",string(set_time), time.Since(start), sb.Err_cnt)	
+
+		get_time, err := sb.Get_time()
+		if err != nil {
+			log.Println("Error getting target")	
+		}
+		log.Printf("Get_timet: %s   %v   errors: %d",string(get_time), time.Since(start), sb.Err_cnt)	
 
 	}
 	

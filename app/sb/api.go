@@ -316,3 +316,33 @@ func Get_target() ([]byte,error){
 	sb_mutex.Unlock()
 	return response, err	
 }
+
+/*
+	Message 7
+	Set time & weekday
+*/
+func Set_time(hour int32, minutes int32, weekday string) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_time(hour, minutes, weekday)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 7
+	Get time & weekday
+*/
+func Get_time() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_time()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}

@@ -41,8 +41,15 @@ type SSetAmbientCond struct {
 	Humidity    int32 `json:"humidity"`
 }
 
-
+// Set Target
 type SSetTarget struct {
 	THeat int32 `json:"t_heat"`
 	TCool int32 `json:"t_cool"`
+}
+
+// Set Time
+type SSetTime struct {
+	Hour    int32    `json:"hour"`
+	Minutes int32    `json:"minutes"`
+	Weekday string `json:"weekday"`
 }
