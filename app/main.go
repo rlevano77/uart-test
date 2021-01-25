@@ -124,8 +124,10 @@ func main() {
 		if err != nil {
 			log.Println("Error setting mode to off")	
 		}
-		log.Printf("Get_Mode: %s   %v   errors: %d",string(read_mode_off), time.Since(start), sb.Err_cnt)
+		log.Printf("Get_Mode off: %s   %v   errors: %d",string(read_mode_off), time.Since(start), sb.Err_cnt)
 		
+
+
 		mode_heat, err := sb.Set_Mode("heat")
 		if err != nil {
 			log.Println("Error setting mode to heat")	
@@ -136,9 +138,8 @@ func main() {
 		if err != nil {
 			log.Println("Error setting mode to heat")	
 		}
-		log.Printf("Get_Mode: %s   %v   errors: %d",string(read_mode_heat), time.Since(start), sb.Err_cnt)
+		log.Printf("Get_Mode heat: %s   %v   errors: %d",string(read_mode_heat), time.Since(start), sb.Err_cnt)
 
-		/*
 		mode_cool, err := sb.Set_Mode("cool")
 		if err != nil {
 			log.Println("Error setting mode to cool")	
@@ -149,7 +150,7 @@ func main() {
 		if err != nil {
 			log.Println("Error setting mode to cool")	
 		}
-		log.Printf("Get_Mode: %s   %v   errors: %d",string(read_mode_cool), time.Since(start), sb.Err_cnt)
+		log.Printf("Get_Mode cool: %s   %v   errors: %d",string(read_mode_cool), time.Since(start), sb.Err_cnt)
 
 		mode_auto, err := sb.Set_Mode("auto")
 		if err != nil {
@@ -161,8 +162,9 @@ func main() {
 		if err != nil {
 			log.Println("Error setting mode to auto")	
 		}
-		log.Printf("Get_Mode: %s   %v   errors: %d",string(read_mode_auto), time.Since(start), sb.Err_cnt)
-		*/
+		log.Printf("Get_Mode auto: %s   %v   errors: %d",string(read_mode_auto), time.Since(start), sb.Err_cnt)
+		
+
 
 		set_auto_fan, err := sb.Set_Fan("auto")
 		if err != nil {
