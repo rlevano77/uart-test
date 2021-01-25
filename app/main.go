@@ -228,9 +228,21 @@ func main() {
 
 		get_time, err := sb.Get_time()
 		if err != nil {
-			log.Println("Error getting target")	
+			log.Println("Error getting time")	
 		}
-		log.Printf("Get_timet: %s   %v   errors: %d",string(get_time), time.Since(start), sb.Err_cnt)	
+		log.Printf("Get_time: %s   %v   errors: %d",string(get_time), time.Since(start), sb.Err_cnt)	
+
+		get_version, err := sb.Get_version()
+		if err != nil {
+			log.Println("Error getting version")	
+		}
+		log.Printf("Get_version: %s   %v   errors: %d",string(get_version), time.Since(start), sb.Err_cnt)	
+
+		get_serial, err := sb.Get_serial()
+		if err != nil {
+			log.Println("Error getting serial")	
+		}
+		log.Printf("Get_serial: %s   %v   errors: %d",string(get_serial), time.Since(start), sb.Err_cnt)
 
 	}
 	

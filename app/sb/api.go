@@ -346,3 +346,33 @@ func Get_time() ([]byte,error){
 	sb_mutex.Unlock()
 	return response, err	
 }
+
+/*
+	Message 8
+	Read HVAC board firmware version
+*/
+func Get_version() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_version()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 9
+	Read HVAC board Serial Number
+*/
+func Get_serial() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_serial()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}

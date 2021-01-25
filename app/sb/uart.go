@@ -375,6 +375,30 @@ func mget_time() ([]byte,error){
 	return request(b)
 }
 
+func mget_version() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_FW_URI,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mget_serial() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_SERIAL_URI,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
 func Close(){
 	serial_port.Close()
 }
