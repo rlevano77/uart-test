@@ -57,7 +57,6 @@ func main() {
 		}
 		
 	}()
-	
 
 	// Polling status 
 	go func() {
@@ -71,14 +70,14 @@ func main() {
 		}
 		
 	}()
+	
 
 
 	/* Main loop */
 	for {
 
-		/*
 		log.Println("Message 2 : Set HVAC config setting")
-		log.Println("Changing mode to \"off\"")
+		log.Println("Changing mode to \"off\" so config changes can be made")
 
 		setmode, err := sb.Set_Mode("off")
 		if err != nil {
@@ -92,7 +91,7 @@ func main() {
 		}
 		log.Printf("Get_Mode: %s   %v   errors: %d",string(getmode), time.Since(start), sb.Err_cnt)	
 
-
+		/*
 		config := sb.SSetConfigSettings {
 			HeatAuxType: "gas/oil",
 			HeatStage: "1 stage AUX heat",
@@ -104,7 +103,7 @@ func main() {
 			log.Println("Error setting config settings")	
 		}
 		log.Printf("Set_config_settings: %s   %v   errors: %d",string(setcfg), time.Since(start), sb.Err_cnt)
-		
+		*/
 
 		getcfg, err := sb.Get_config_settings()
 		if err != nil {
@@ -127,7 +126,6 @@ func main() {
 		}
 		log.Printf("Get_Mode: %s   %v   errors: %d",string(read_mode_off), time.Since(start), sb.Err_cnt)
 		
-
 		mode_heat, err := sb.Set_Mode("heat")
 		if err != nil {
 			log.Println("Error setting mode to heat")	
@@ -140,6 +138,7 @@ func main() {
 		}
 		log.Printf("Get_Mode: %s   %v   errors: %d",string(read_mode_heat), time.Since(start), sb.Err_cnt)
 
+		/*
 		mode_cool, err := sb.Set_Mode("cool")
 		if err != nil {
 			log.Println("Error setting mode to cool")	
