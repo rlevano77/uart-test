@@ -83,18 +83,25 @@ func main() {
 		if err != nil {
 			log.Println("Error reading status")	
 		}
-		log.Printf("Set_Mode: %s   %v   errors: %d",string(setmode), time.Since(start), sb.Err_cnt)		
+		log.Printf("Set_Mode off: %s   %v   errors: %d",string(setmode), time.Since(start), sb.Err_cnt)		
 
 		getmode, err := sb.Get_Mode()
 		if err != nil {
 			log.Println("Error getting mode")	
 		}
-		log.Printf("Get_Mode: %s   %v   errors: %d",string(getmode), time.Since(start), sb.Err_cnt)	
+		log.Printf("Get_Mode off: %s   %v   errors: %d",string(getmode), time.Since(start), sb.Err_cnt)	
 
-		/*
+		
+
+
+
+
+		//sb.Beep(1000)
+
+		log.Printf("Set config settings to : electric, 2H, 1C, O/B for Heat")
 		config := sb.SSetConfigSettings {
-			HeatAuxType: "gas/oil",
-			HeatStage: "1 stage AUX heat",
+			HeatAuxType: "electric",
+			HeatStage: "2 stage AUX heat",
 			CoolStage: "1-stage",
 			HeatPumpConfig: "B",
 		}
@@ -103,7 +110,12 @@ func main() {
 			log.Println("Error setting config settings")	
 		}
 		log.Printf("Set_config_settings: %s   %v   errors: %d",string(setcfg), time.Since(start), sb.Err_cnt)
-		*/
+		
+		
+
+
+
+
 
 		getcfg, err := sb.Get_config_settings()
 		if err != nil {
@@ -112,13 +124,13 @@ func main() {
 		log.Printf("Get_config_settings: %s   %v   errors: %d",string(getcfg), time.Since(start), sb.Err_cnt)
 
 
-		log.Printf("Message 3 : Set Mode of operation")
+		log.Println("Changing mode to \"off\" so config changes can be made")
 
 		mode_off, err := sb.Set_Mode("off")
 		if err != nil {
 			log.Println("Error setting mode to off")	
 		}
-		log.Printf("Set_Mode: %s   %v   errors: %d",string(mode_off), time.Since(start), sb.Err_cnt)
+		log.Printf("Set_Mode off: %s   %v   errors: %d",string(mode_off), time.Since(start), sb.Err_cnt)
 
 		read_mode_off, err := sb.Get_Mode()
 		if err != nil {
@@ -132,7 +144,7 @@ func main() {
 		if err != nil {
 			log.Println("Error setting mode to heat")	
 		}
-		log.Printf("Set_Mode: %s   %v   errors: %d",string(mode_heat), time.Since(start), sb.Err_cnt)
+		log.Printf("Set_Mode heat: %s   %v   errors: %d",string(mode_heat), time.Since(start), sb.Err_cnt)
 
 		read_mode_heat, err := sb.Get_Mode()
 		if err != nil {
@@ -144,7 +156,7 @@ func main() {
 		if err != nil {
 			log.Println("Error setting mode to cool")	
 		}
-		log.Printf("Set_Mode: %s   %v   errors: %d",string(mode_cool), time.Since(start), sb.Err_cnt)
+		log.Printf("Set_Mode cool: %s   %v   errors: %d",string(mode_cool), time.Since(start), sb.Err_cnt)
 
 		read_mode_cool, err := sb.Get_Mode()
 		if err != nil {
@@ -156,7 +168,7 @@ func main() {
 		if err != nil {
 			log.Println("Error setting mode to auto")	
 		}
-		log.Printf("Set_Mode: %s   %v   errors: %d",string(mode_auto), time.Since(start), sb.Err_cnt)
+		log.Printf("Set_Mode auto: %s   %v   errors: %d",string(mode_auto), time.Since(start), sb.Err_cnt)
 
 		read_mode_auto, err := sb.Get_Mode()
 		if err != nil {
