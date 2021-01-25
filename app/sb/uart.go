@@ -289,6 +289,62 @@ func mget_fan() ([]byte,error){
 	return request(b)
 }
 
+func mread_ambient_conditions() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_REPORT_AMBIENT_URI,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mset_api_test_ambient_conditions(temperature int32, humidity int32) ([]byte,error){
+	p, err := json.Marshal(SSetAmbientCond{
+		Temperature: temperature * 10,
+		Humidity: humidity,
+	})
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_REPORT_AMBIENT_URI,
+		Cmd:  POST,
+		Payload: string(p),
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mset_target(t_heat float32, t_cool float32) ([]byte,error){
+	p, err := json.Marshal(SSetTarget{
+		THeat: int32(t_heat * 10),
+		TCool: int32(t_cool * 10),
+	})
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_TARGET,
+		Cmd:  POST,
+		Payload: string(p),
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mget_target() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_TARGET,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
 func Close(){
 	serial_port.Close()
 }

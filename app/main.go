@@ -201,6 +201,26 @@ func main() {
 			log.Println("Error reading fan")	
 		}
 		log.Printf("Get_Fan on: %s   %v   errors: %d",string(read_on_fan), time.Since(start), sb.Err_cnt)	
+
+		read_ambient, err := sb.Read_ambient_conditions()
+		if err != nil {
+			log.Println("Error reading ambient conditions")	
+		}
+		log.Printf("Read_ambient_conditions: %s   %v   errors: %d",string(read_ambient), time.Since(start), sb.Err_cnt)	
+
+		set_target, err := sb.Set_target(70.5, 80.6)
+		if err != nil {
+			log.Println("Error setting target")	
+		}
+		log.Printf("Set_target heat target 70.5, cool target 80.6: %s   %v   errors: %d",string(set_target), time.Since(start), sb.Err_cnt)	
+
+		read_target, err := sb.Get_target()
+		if err != nil {
+			log.Println("Error getting target")	
+		}
+		log.Printf("Get_target: %s   %v   errors: %d",string(read_target), time.Since(start), sb.Err_cnt)	
+
+
 	}
 	
 }

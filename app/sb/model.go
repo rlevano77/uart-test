@@ -34,3 +34,15 @@ type SSetConfigSettings struct {
 	CoolStage      string `json:"cool_stage"`
 	HeatPumpConfig string `json:"heat_pump_config"`
 }
+
+// Set Test Ambient Conditions
+type SSetAmbientCond struct {
+	Temperature int32 `json:"temperature"`
+	Humidity    int32 `json:"humidity"`
+}
+
+
+type SSetTarget struct {
+	THeat int32 `json:"t_heat"`
+	TCool int32 `json:"t_cool"`
+}

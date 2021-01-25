@@ -254,3 +254,65 @@ func Get_Fan() ([]byte,error){
 	sb_mutex.Unlock()
 	return response, err	
 }
+
+/*
+	Message 5
+	Read ambient conditions
+*/
+func Read_ambient_conditions() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mread_ambient_conditions()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 5
+	Set ambient conditions
+*/
+func Set_api_test_ambient_conditions(temperature int32, humidity int32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_api_test_ambient_conditions(temperature, humidity)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 6
+	Set heat / cool targets
+	t_heat range [35-94F]
+	t_cool range [35-95F]
+*/
+func Set_target(t_heat float32, t_cool float32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_target(t_heat, t_cool)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 6
+	Set heat / cool targets
+*/
+func Get_target() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_target()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
