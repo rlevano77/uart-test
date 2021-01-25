@@ -18,7 +18,8 @@ func main() {
 	}
 	log.Println("Serial port opened succesfully.")
 
-	/* Polling sensors */
+
+	// Polling sensors 
 	go func() {
 		
 		for {
@@ -31,7 +32,7 @@ func main() {
 		
 	}()
 
-	/* Polling proximity */
+	// Polling proximity 
 	go func() {
 		
 		for {
@@ -44,7 +45,7 @@ func main() {
 		
 	}()
 
-	/* Polling iaq */
+	// Polling iaq 
 	go func() {
 		
 		for {
@@ -58,7 +59,7 @@ func main() {
 	}()
 	
 
-	/* Polling status */
+	// Polling status 
 	go func() {
 		
 		for {
@@ -75,6 +76,7 @@ func main() {
 	/* Main loop */
 	for {
 
+		/*
 		log.Println("Message 2 : Set HVAC config setting")
 		log.Println("Changing mode to \"off\"")
 
@@ -124,6 +126,7 @@ func main() {
 			log.Println("Error setting mode to off")	
 		}
 		log.Printf("Get_Mode: %s   %v   errors: %d",string(read_mode_off), time.Since(start), sb.Err_cnt)
+		
 
 		mode_heat, err := sb.Set_Mode("heat")
 		if err != nil {
@@ -160,7 +163,31 @@ func main() {
 			log.Println("Error setting mode to auto")	
 		}
 		log.Printf("Get_Mode: %s   %v   errors: %d",string(read_mode_auto), time.Since(start), sb.Err_cnt)
+		*/
 
+		set_auto_fan, err := sb.Set_Fan("auto")
+		if err != nil {
+			log.Println("Error setting fan to auto")	
+		}
+		log.Printf("Set_Fan: %s   %v   errors: %d",string(set_auto_fan), time.Since(start), sb.Err_cnt)
+
+		read_auto_fan, err := sb.Get_Fan()
+		if err != nil {
+			log.Println("Error reading fan")	
+		}
+		log.Printf("Get_Fan auto: %s   %v   errors: %d",string(read_auto_fan), time.Since(start), sb.Err_cnt)	
+		
+		set_on_fan, err := sb.Set_Fan("on")
+		if err != nil {
+			log.Println("Error setting fan to on")	
+		}
+		log.Printf("Set_Fan: %s   %v   errors: %d",string(set_on_fan), time.Since(start), sb.Err_cnt)
+
+		read_on_fan, err := sb.Get_Fan()
+		if err != nil {
+			log.Println("Error reading fan")	
+		}
+		log.Printf("Get_Fan on: %s   %v   errors: %d",string(read_on_fan), time.Since(start), sb.Err_cnt)	
 	}
 	
 }
