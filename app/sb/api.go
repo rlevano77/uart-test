@@ -376,3 +376,33 @@ func Get_serial() ([]byte,error){
 	sb_mutex.Unlock()
 	return response, err	
 }
+
+/*
+	Message 10
+	Set Heat Pump EMER
+*/
+func Set_heat_pump_emer(fan string) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_heat_pump_emer(fan)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 10
+	Get Heat Pump EMER
+*/
+func Get_heat_pump_emer() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_heat_pump_emer()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}

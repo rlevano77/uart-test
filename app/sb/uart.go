@@ -399,6 +399,34 @@ func mget_serial() ([]byte,error){
 	return request(b)
 }
 
+func mset_heat_pump_emer(emer string) ([]byte,error){
+	if(validOption(emer,heat_pump_emer_options)){
+		b, err := json.Marshal(SCmd{
+			Uri:	TSTAT_HEAT_PUMP_EMER,
+			Cmd:  POST,
+			Payload: emer,
+		})
+		if err != nil {
+			log.Printf("Error Marshalling: %v \n", err)
+		}
+		return request(b)
+	} else {
+		panic(errors.New("Wrong option string"))
+	}
+}
+
+func mget_heat_pump_emer() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_HEAT_PUMP_EMER,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
 func Close(){
 	serial_port.Close()
 }

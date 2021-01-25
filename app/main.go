@@ -244,6 +244,30 @@ func main() {
 		}
 		log.Printf("Get_serial: %s   %v   errors: %d",string(get_serial), time.Since(start), sb.Err_cnt)
 
+		set_emer_off, err := sb.Set_heat_pump_emer("off")
+		if err != nil {
+			log.Println("Error setting heat pump emer off")	
+		}
+		log.Printf("Set_heat_pump_emer: %s   %v   errors: %d",string(set_emer_off), time.Since(start), sb.Err_cnt)
+
+		get_emer_off, err := sb.Get_heat_pump_emer()
+		if err != nil {
+			log.Println("Error getting serial")	
+		}
+		log.Printf("Get_heat_pump_emer off: %s   %v   errors: %d",string(get_emer_off), time.Since(start), sb.Err_cnt)
+
+		set_emer_on, err := sb.Set_heat_pump_emer("on")
+		if err != nil {
+			log.Println("Error setting heat pump emer on")	
+		}
+		log.Printf("Set_heat_pump_emer: %s   %v   errors: %d",string(set_emer_on), time.Since(start), sb.Err_cnt)
+
+		get_emer_on, err := sb.Get_heat_pump_emer()
+		if err != nil {
+			log.Println("Error getting serial")	
+		}
+		log.Printf("Get_heat_pump_emer on: %s   %v   errors: %d",string(get_emer_on), time.Since(start), sb.Err_cnt)
+
 	}
 	
 }
