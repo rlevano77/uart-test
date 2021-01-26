@@ -469,3 +469,95 @@ func Get_swing_temperature() ([]byte,error){
 	sb_mutex.Unlock()
 	return response, err	
 }
+
+/*
+	Message 13
+	Set Temperature Differential
+	heat_diff, cool_diff range [2.0 - 6.0]
+*/
+func Set_temperature_differential(heat_diff float32, cool_diff float32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_temperature_differential(heat_diff, cool_diff)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 13
+	Get Temperature Differential
+*/
+func Get_temperature_differential() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_temperature_differential()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 14
+	Set HVAC Recovery Mode
+*/
+func Set_recovery(recovery string) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_recovery(recovery)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 14
+	Get HVAC Recovery Mode
+*/
+func Get_recovery() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_recovery()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 15
+	Set Humidity Setpoint
+	value from 0% to 100%
+*/
+func Set_humidity_setpoint(humidity int32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_humidity_setpoint(humidity)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 15
+	Set Humidity Setpoint
+*/
+func Get_humidity_setpoint() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_humidity_setpoint()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}

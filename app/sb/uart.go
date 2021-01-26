@@ -486,6 +486,90 @@ func get_swing_temperature() ([]byte,error){
 	return request(b)
 }
 
+func mset_temperature_differential(heat_diff float32, cool_diff float32) ([]byte,error){
+	p, err := json.Marshal(SSetTempDiff{
+		HeatDiff: int32(heat_diff * 10),
+		CoolDiff: int32(cool_diff * 10),
+	})
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_TEMP_DIFFERENTIAL,
+		Cmd:  POST,
+		Payload: string(p),
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mget_temperature_differential() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_TEMP_DIFFERENTIAL,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mset_recovery(recovery string) ([]byte,error){
+	if(validOption(recovery,recovery_options)){
+		b, err := json.Marshal(SCmd{
+			Uri:	TSTAT_RECOVERY_MODE,
+			Cmd:  POST,
+			Payload: recovery,
+		})
+		if err != nil {
+			log.Printf("Error Marshalling: %v \n", err)
+		}
+		return request(b)
+	} else {
+		panic(errors.New("Wrong option string"))
+	}
+}
+
+func mget_recovery() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_RECOVERY_MODE,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mset_humidity_setpoint(humidity int32) ([]byte,error){
+	p, err := json.Marshal(SSetHumidity{
+		Humidity: humidity,
+	})
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_HUMIDITY_SETPOINT,
+		Cmd:  POST,
+		Payload: string(p),
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mget_humidity_setpoint() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_HUMIDITY_SETPOINT,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+
 func Close(){
 	serial_port.Close()
 }

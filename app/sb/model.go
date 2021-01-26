@@ -64,3 +64,14 @@ type SSwingTemperature struct {
 	Swing     int32    `json:"swing"`
 	SwingMode string `json:"swing_mode"`
 }
+
+// Set Temperature Differential
+type SSetTempDiff struct {
+	HeatDiff int32 `json:"heat_diff"`
+	CoolDiff int32 `json:"cool_diff"`
+}
+
+// Set Humidity Setpoint
+type SSetHumidity struct {
+	Humidity int32 `json:"humidity"`
+}

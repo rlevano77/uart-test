@@ -230,7 +230,13 @@ func main() {
 		if err != nil {
 			log.Println("Error getting time")	
 		}
-		log.Printf("Get_time: %s   %v   errors: %d",string(get_time), time.Since(start), sb.Err_cnt)	
+		log.Printf("Get_time: %s   %v   errors: %d",string(get_time), time.Since(start), sb.Err_cnt)
+		
+		get_psoc5_version, err := sb.Get_psoc5_version()
+		if err != nil {
+			log.Println("Error getting version")	
+		}
+		log.Printf("Get_psoc5_version: %s   %v   errors: %d",string(get_psoc5_version), time.Since(start), sb.Err_cnt)
 
 		get_version, err := sb.Get_version()
 		if err != nil {
@@ -291,6 +297,54 @@ func main() {
 			log.Println("Error getting swing temperature")	
 		}
 		log.Printf("Get_swing_temperature: %s   %v   errors: %d",string(get_swing_temp), time.Since(start), sb.Err_cnt)
+
+		set_temp_diff, err := sb.Set_temperature_differential(3.0, 5.0)
+		if err != nil {
+			log.Println("Error setting temperature differential")	
+		}
+		log.Printf("Set_temperature_differential: %s   %v   errors: %d",string(set_temp_diff), time.Since(start), sb.Err_cnt)
+
+		get_temp_diff, err := sb.Get_temperature_differential()
+		if err != nil {
+			log.Println("Error getting temperature differential")	
+		}
+		log.Printf("Get_temperature_differential: %s   %v   errors: %d",string(get_temp_diff), time.Since(start), sb.Err_cnt)
+
+		set_recvy_fast, err := sb.Set_recovery("fast")
+		if err != nil {
+			log.Println("Error setting recovery fast")	
+		}
+		log.Printf("Set_recovery fast: %s   %v   errors: %d",string(set_recvy_fast), time.Since(start), sb.Err_cnt)
+
+		get_recvy_fast, err := sb.Get_recovery()
+		if err != nil {
+			log.Println("Error getting recovery fast")	
+		}
+		log.Printf("Get_recovery fast: %s   %v   errors: %d",string(get_recvy_fast), time.Since(start), sb.Err_cnt)
+
+		set_recvy_economy, err := sb.Set_recovery("economy")
+		if err != nil {
+			log.Println("Error setting recovery economy")	
+		}
+		log.Printf("Set_recovery economy: %s   %v   errors: %d",string(set_recvy_economy), time.Since(start), sb.Err_cnt)
+
+		get_recvy_economy, err := sb.Get_recovery()
+		if err != nil {
+			log.Println("Error getting recovery economy")	
+		}
+		log.Printf("Get_recovery economy: %s   %v   errors: %d",string(get_recvy_economy), time.Since(start), sb.Err_cnt)
+
+		set_humidity_sp, err := sb.Set_humidity_setpoint(40)
+		if err != nil {
+			log.Println("Error setting humidity setpoint")	
+		}
+		log.Printf("Set_humidity_setpoint : %s   %v   errors: %d",string(set_humidity_sp), time.Since(start), sb.Err_cnt)
+
+		get_humidity_sp, err := sb.Get_humidity_setpoint()
+		if err != nil {
+			log.Println("Error getting humidity setpoint")	
+		}
+		log.Printf("Get_humidity_setpoint: %s   %v   errors: %d",string(get_humidity_sp), time.Since(start), sb.Err_cnt)
 
 	}
 	
