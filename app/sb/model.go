@@ -75,3 +75,24 @@ type SSetTempDiff struct {
 type SSetHumidity struct {
 	Humidity int32 `json:"humidity"`
 }
+
+// Set De-Humidifier Setpoint
+type SSetDehumidifier struct {
+	Dehumidifier int32 `json:"dehumidifier"`
+}
+
+// Set External De-Humidifier Setpoint
+type SSetExtDehumidifier struct {
+	Extdehumi int32 `json:"extdehumi"`
+}
+
+
+
+
+
+
+
+
+
+
+

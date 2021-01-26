@@ -561,3 +561,95 @@ func Get_humidity_setpoint() ([]byte,error){
 	sb_mutex.Unlock()
 	return response, err	
 }
+
+/*
+	Message 16
+	Set De-Humidifier Setpoint
+	value from 20% to 90%
+*/
+func Set_dehumidifier_setpoint(dehumidifier int32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_dehumidifier_setpoint(dehumidifier)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 16
+	Set De-Humidifier Setpoint
+*/
+func Get_dehumidifier_setpoint() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_dehumidifier_setpoint()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 17
+	Set External De-Humidifier Setpoint
+	value from 20% to 90%
+*/
+func Set_external_dehumidifier_setpoint(extdehumi int32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_external_dehumidifier_setpoint(extdehumi)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 17
+	Set External De-Humidifier Setpoint
+*/
+func Get_external_dehumidifier_setpoint() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_external_dehumidifier_setpoint()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 18
+	Set Humidifier Mode
+*/
+func Set_humidifier_mode(mode string) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_humidifier_mode(mode)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 18
+	Set Humidifier Mode
+*/
+func Get_humidifier_mode() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_humidifier_mode()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}

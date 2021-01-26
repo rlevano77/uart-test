@@ -346,6 +346,66 @@ func main() {
 		}
 		log.Printf("Get_humidity_setpoint: %s   %v   errors: %d",string(get_humidity_sp), time.Since(start), sb.Err_cnt)
 
+		set_dehumidifier_sp, err := sb.Set_dehumidifier_setpoint(50)
+		if err != nil {
+			log.Println("Error setting dehumidifier setpoint")	
+		}
+		log.Printf("Set_dehumidifier_setpoint : %s   %v   errors: %d",string(set_dehumidifier_sp), time.Since(start), sb.Err_cnt)
+
+		get_dehumidifier_sp, err := sb.Get_dehumidifier_setpoint()
+		if err != nil {
+			log.Println("Error getting dehumidifier setpoint")	
+		}
+		log.Printf("Get_dehumidifier_setpoint: %s   %v   errors: %d",string(get_dehumidifier_sp), time.Since(start), sb.Err_cnt)
+
+		set_ext_dehumidifier_sp, err := sb.Set_external_dehumidifier_setpoint(35)
+		if err != nil {
+			log.Println("Error setting external dehumidifier setpoint")	
+		}
+		log.Printf("Set_external_dehumidifier_setpoint : %s   %v   errors: %d",string(set_ext_dehumidifier_sp), time.Since(start), sb.Err_cnt)
+
+		get_ext_dehumidifier_sp, err := sb.Get_external_dehumidifier_setpoint()
+		if err != nil {
+			log.Println("Error getting external dehumidifier setpoint")	
+		}
+		log.Printf("Get_external_dehumidifier_setpoint : %s   %v   errors: %d",string(get_ext_dehumidifier_sp), time.Since(start), sb.Err_cnt)
+
+		set_humidifier_mode_off, err := sb.Set_humidifier_mode("off")
+		if err != nil {
+			log.Println("Error setting humidifier mode off")	
+		}
+		log.Printf("Set_humidifier_mode off : %s   %v   errors: %d",string(set_humidifier_mode_off), time.Since(start), sb.Err_cnt)
+
+		get_humidifier_mode_off, err := sb.Get_humidifier_mode()
+		if err != nil {
+			log.Println("Error getting humidifier mode off")	
+		}
+		log.Printf("Get_humidifier_mode off : %s   %v   errors: %d",string(get_humidifier_mode_off), time.Since(start), sb.Err_cnt)
+
+		set_humidifier_mode_runonly, err := sb.Set_humidifier_mode("run only with heat")
+		if err != nil {
+			log.Println("Error setting humidifier mode runonly")	
+		}
+		log.Printf("Set_humidifier_mode runonly : %s   %v   errors: %d",string(set_humidifier_mode_runonly), time.Since(start), sb.Err_cnt)
+
+		get_humidifier_mode_runonly, err := sb.Get_humidifier_mode()
+		if err != nil {
+			log.Println("Error getting humidifier mode runonly")	
+		}
+		log.Printf("Get_humidifier_mode runonly : %s   %v   errors: %d",string(get_humidifier_mode_runonly), time.Since(start), sb.Err_cnt)
+
+		set_humidifier_mode_anytime, err := sb.Set_humidifier_mode("humidify anytime")
+		if err != nil {
+			log.Println("Error setting humidifier mode anytime")	
+		}
+		log.Printf("Set_humidifier_mode anytime : %s   %v   errors: %d",string(set_humidifier_mode_anytime), time.Since(start), sb.Err_cnt)
+
+		get_humidifier_mode_anytime, err := sb.Get_humidifier_mode()
+		if err != nil {
+			log.Println("Error getting humidifier mode anytime")	
+		}
+		log.Printf("Get_humidifier_mode anytime : %s   %v   errors: %d",string(get_humidifier_mode_anytime), time.Since(start), sb.Err_cnt)
+
 	}
 	
 }

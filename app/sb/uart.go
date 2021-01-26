@@ -569,6 +569,88 @@ func mget_humidity_setpoint() ([]byte,error){
 	return request(b)
 }
 
+func mset_dehumidifier_setpoint(dehumidifier int32) ([]byte,error){
+	p, err := json.Marshal(SSetDehumidifier{
+		Dehumidifier: dehumidifier,
+	})
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_DEHUMIDIFIER_SETPOINT,
+		Cmd:  POST,
+		Payload: string(p),
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mget_dehumidifier_setpoint() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_DEHUMIDIFIER_SETPOINT,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mset_external_dehumidifier_setpoint(extdehumi int32) ([]byte,error){
+	p, err := json.Marshal(SSetExtDehumidifier{
+		Extdehumi: extdehumi,
+	})
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_EXT_DEHUMIDIFIER_SETPOINT,
+		Cmd:  POST,
+		Payload: string(p),
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mget_external_dehumidifier_setpoint() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_EXT_DEHUMIDIFIER_SETPOINT,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mset_humidifier_mode(mode string) ([]byte,error){
+	if(validOption(mode,humidifier_mode_options)){
+		b, err := json.Marshal(SCmd{
+			Uri:	TSTAT_HUMIDIFIER_MODE,
+			Cmd:  POST,
+			Payload: mode,
+		})
+		if err != nil {
+			log.Printf("Error Marshalling: %v \n", err)
+		}
+		return request(b)
+	} else {
+		panic(errors.New("Wrong option string"))
+	}
+}
+
+func mget_humidifier_mode() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_HUMIDIFIER_MODE,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
 
 func Close(){
 	serial_port.Close()
