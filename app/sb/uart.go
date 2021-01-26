@@ -427,6 +427,65 @@ func mget_heat_pump_emer() ([]byte,error){
 	return request(b)
 }
 
+func mset_stage2stage_delay(delay int32) ([]byte,error){
+	p, err := json.Marshal(SStage2StageDelay{
+		Delay: delay,
+	})
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_STAGE_TO_STAGE_DELAY,
+		Cmd:  POST,
+		Payload: string(p),
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mget_stage2stage_delay() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_STAGE_TO_STAGE_DELAY,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+func mset_swing_temperature(swing float32, swing_mode string) ([]byte,error){
+	if(validOption(swing_mode,swing_options)){
+		p, err := json.Marshal(SSwingTemperature{
+			Swing: int32(swing * 10),
+			SwingMode: swing_mode,
+		})
+		b, err := json.Marshal(SCmd{
+			Uri:	TSTAT_SWING_TEMP,
+			Cmd:  POST,
+			Payload: string(p),
+		})
+		if err != nil {
+			log.Printf("Error Marshalling: %v \n", err)
+		}
+		return request(b)
+	} else {
+		panic(errors.New("Wrong option string"))
+	}
+}
+
+func get_swing_temperature() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_SWING_TEMP,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
 func Close(){
 	serial_port.Close()
 }

@@ -406,3 +406,66 @@ func Get_heat_pump_emer() ([]byte,error){
 	sb_mutex.Unlock()
 	return response, err	
 }
+
+/*
+	Message 11
+	Set Stage-to-Stage Delay
+	delay in minutes [0-60]
+*/
+func Set_stage2stage_delay(delay int32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_stage2stage_delay(delay)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 11
+	Get Stage-to-Stage Delay
+*/
+func Get_stage2stage_delay() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_stage2stage_delay()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 12
+	Set Swing Temperature
+ 	swing => [0.0 to 3.0F]
+	swing_mode => ['swing one way','swing both ways']
+*/
+func Set_swing_temperature(swing float32, swing_mode string) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_swing_temperature(swing, swing_mode)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 12
+	Get Swing Temperature
+*/
+func Get_swing_temperature() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = get_swing_temperature()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}

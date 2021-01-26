@@ -53,3 +53,14 @@ type SSetTime struct {
 	Minutes int32    `json:"minutes"`
 	Weekday string `json:"weekday"`
 }
+
+// Set Stage-to-Stage Delay
+type SStage2StageDelay struct {
+	Delay int32 `json:"delay"`
+}
+
+// Set Swing Temperature
+type SSwingTemperature struct {
+	Swing     int32    `json:"swing"`
+	SwingMode string `json:"swing_mode"`
+}

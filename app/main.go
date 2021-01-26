@@ -268,6 +268,30 @@ func main() {
 		}
 		log.Printf("Get_heat_pump_emer on: %s   %v   errors: %d",string(get_emer_on), time.Since(start), sb.Err_cnt)
 
+		set_stage2stage_delay, err := sb.Set_stage2stage_delay(48)
+		if err != nil {
+			log.Println("Error setting stage to stage delay")	
+		}
+		log.Printf("Set_stage2stage_delay: %s   %v   errors: %d",string(set_stage2stage_delay), time.Since(start), sb.Err_cnt)
+
+		get_stage2stage_delay, err := sb.Get_stage2stage_delay()
+		if err != nil {
+			log.Println("Error getting stage to stage delay")	
+		}
+		log.Printf("Get_stage2stage_delay: %s   %v   errors: %d",string(get_stage2stage_delay), time.Since(start), sb.Err_cnt)
+
+		set_swing_temp, err := sb.Set_swing_temperature(2.6, "swing both ways")
+		if err != nil {
+			log.Println("Error setting swing temperature")	
+		}
+		log.Printf("Set_swing_temperature: %s   %v   errors: %d",string(set_swing_temp), time.Since(start), sb.Err_cnt)
+
+		get_swing_temp, err := sb.Get_swing_temperature()
+		if err != nil {
+			log.Println("Error getting swing temperature")	
+		}
+		log.Printf("Get_swing_temperature: %s   %v   errors: %d",string(get_swing_temp), time.Since(start), sb.Err_cnt)
+
 	}
 	
 }
