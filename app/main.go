@@ -430,6 +430,42 @@ func main() {
 		}
 		log.Printf("Get_dehumidifier_mode on: %s   %v   errors: %d",string(get_dehumidifier_mode_on), time.Since(start), sb.Err_cnt)
 
+		set_ext_dehumidifier_mode_off, err := sb.Set_external_dehumidifier_mode("off")
+		if err != nil {
+			log.Println("Error setting external dehumidifier mode off")	
+		}
+		log.Printf("Set_external_dehumidifier_mode off : %s   %v   errors: %d",string(set_ext_dehumidifier_mode_off), time.Since(start), sb.Err_cnt)
+
+		get_ext_dehumidifier_mode_off, err := sb.Get_external_dehumidifier_mode()
+		if err != nil {
+			log.Println("Error getting external dehumidifier mode off")	
+		}
+		log.Printf("Get_external_dehumidifier_mode off : %s   %v   errors: %d",string(get_ext_dehumidifier_mode_off), time.Since(start), sb.Err_cnt)
+
+		set_ext_dehumidifier_mode_wfan, err := sb.Set_external_dehumidifier_mode("on with fan")
+		if err != nil {
+			log.Println("Error setting external dehumidifier mode wfan")	
+		}
+		log.Printf("Set_external_dehumidifier_mode wfan : %s   %v   errors: %d",string(set_ext_dehumidifier_mode_wfan), time.Since(start), sb.Err_cnt)
+
+		get_ext_dehumidifier_mode_wfan, err := sb.Get_external_dehumidifier_mode()
+		if err != nil {
+			log.Println("Error getting external dehumidifier mode wfan")	
+		}
+		log.Printf("Get_external_dehumidifier_mode wfan : %s   %v   errors: %d",string(get_ext_dehumidifier_mode_wfan), time.Since(start), sb.Err_cnt)
+
+		set_ext_dehumidifier_mode_wofan, err := sb.Set_external_dehumidifier_mode("on without fan")
+		if err != nil {
+			log.Println("Error setting external dehumidifier mode wofan")	
+		}
+		log.Printf("Set_external_dehumidifier_mode wofan : %s   %v   errors: %d",string(set_ext_dehumidifier_mode_wofan), time.Since(start), sb.Err_cnt)
+
+		get_ext_dehumidifier_mode_wofan, err := sb.Get_external_dehumidifier_mode()
+		if err != nil {
+			log.Println("Error getting external dehumidifier mode wofan")	
+		}
+		log.Printf("Get_external_dehumidifier_mode wofan : %s   %v   errors: %d",string(get_ext_dehumidifier_mode_wofan), time.Since(start), sb.Err_cnt)
+
 	}
 	
 }

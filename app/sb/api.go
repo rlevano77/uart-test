@@ -683,3 +683,33 @@ func Get_dehumidifier_mode() ([]byte,error){
 	sb_mutex.Unlock()
 	return response, err	
 }
+
+/*
+	Message 20
+	Set External De-Humidifier mode
+*/
+func Set_external_dehumidifier_mode(mode string) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_external_dehumidifier_mode(mode)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 20
+	Get External De-Humidifier mode
+*/
+func Get_external_dehumidifier_mode() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mget_external_dehumidifier_mode()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
