@@ -406,6 +406,30 @@ func main() {
 		}
 		log.Printf("Get_humidifier_mode anytime : %s   %v   errors: %d",string(get_humidifier_mode_anytime), time.Since(start), sb.Err_cnt)
 
+		set_dehumidifier_mode_off, err := sb.Set_dehumidifier_mode("off")
+		if err != nil {
+			log.Println("Error setting dehumidifier mode off")	
+		}
+		log.Printf("Set_dehumidifier_mode off : %s   %v   errors: %d",string(set_dehumidifier_mode_off), time.Since(start), sb.Err_cnt)
+
+		get_dehumidifier_mode_off, err := sb.Get_dehumidifier_mode()
+		if err != nil {
+			log.Println("Error getting dehumidifier mode off")	
+		}
+		log.Printf("Get_dehumidifier_mode off: %s   %v   errors: %d",string(get_dehumidifier_mode_off), time.Since(start), sb.Err_cnt)
+
+		set_dehumidifier_mode_on, err := sb.Set_dehumidifier_mode("on")
+		if err != nil {
+			log.Println("Error setting dehumidifier mode on")	
+		}
+		log.Printf("Set_dehumidifier_mode on : %s   %v   errors: %d",string(set_dehumidifier_mode_on), time.Since(start), sb.Err_cnt)
+
+		get_dehumidifier_mode_on, err := sb.Get_dehumidifier_mode()
+		if err != nil {
+			log.Println("Error getting dehumidifier mode on")	
+		}
+		log.Printf("Get_dehumidifier_mode on: %s   %v   errors: %d",string(get_dehumidifier_mode_on), time.Since(start), sb.Err_cnt)
+
 	}
 	
 }

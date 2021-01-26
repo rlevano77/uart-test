@@ -651,6 +651,34 @@ func mget_humidifier_mode() ([]byte,error){
 	return request(b)
 }
 
+func mset_dehumidifier_mode(mode string) ([]byte,error){
+	if(validOption(mode,dehumidifier_mode_options)){
+		b, err := json.Marshal(SCmd{
+			Uri:	TSTAT_DEHUMIDIFIER_MODE,
+			Cmd:  POST,
+			Payload: mode,
+		})
+		if err != nil {
+			log.Printf("Error Marshalling: %v \n", err)
+		}
+		return request(b)
+	} else {
+		panic(errors.New("Wrong option string"))
+	}
+}
+
+func mget_dehumidifier_mode() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	TSTAT_DEHUMIDIFIER_MODE,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
 
 func Close(){
 	serial_port.Close()
