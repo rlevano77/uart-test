@@ -720,6 +720,22 @@ func mset_control_relay(relays SSRelays) ([]byte,error){
 	return request(b)
 }
 
+func mset_ex_relay(ex string) ([]byte,error){
+	if(validOption(ex,ex_relay_options)){
+		b, err := json.Marshal(SCmd{
+			Uri:	TSTAT_EX_RELAY,
+			Cmd:  POST,
+			Payload: ex,
+		})
+		if err != nil {
+			log.Printf("Error Marshalling: %v \n", err)
+		}
+		return request(b)
+	} else {
+		panic(errors.New("Wrong option string"))
+	}
+}
+
 
 func Close(){
 	serial_port.Close()

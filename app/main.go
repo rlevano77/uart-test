@@ -238,6 +238,12 @@ func main() {
 		}
 		log.Printf("Get_psoc5_version: %s   %v   errors: %d",string(get_psoc5_version), time.Since(start), sb.Err_cnt)
 
+		die_temp, err := sb.Get_psoc5_die_temp()
+		if err != nil {
+			log.Println("Error getting die temperature")	
+		}
+		log.Printf("Get_psoc5_die_temp: %s   %v   errors: %d",string(die_temp), time.Since(start), sb.Err_cnt)	
+
 		get_version, err := sb.Get_version()
 		if err != nil {
 			log.Println("Error getting version")	
@@ -522,6 +528,11 @@ func main() {
 
 		sb.Set_Mode("off")
 		sb.Set_Fan("auto")
+
+		log.Printf("Close EX relay")
+		sb.Set_ex_relay("close")
+		log.Printf("Open EX relay")
+		sb.Set_ex_relay("open")
 
 
 	}

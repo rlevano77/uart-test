@@ -754,3 +754,22 @@ func Set_control_relay(relays SSRelays) ([]byte,error){
 	sb_mutex.Unlock()
 	return response, err	
 }
+
+/*
+	Message 22
+	Set Thermostat EX Relay
+
+	Hub CAN control when user mode is OFF, HEAT, COOL, AUTO;
+	Hub CANNOT control when user mode is MANUAL;
+	EX relay will be Open after reset.
+*/
+func Set_ex_relay(ex string) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_ex_relay(ex)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
