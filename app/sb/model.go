@@ -86,6 +86,20 @@ type SSetExtDehumidifier struct {
 	Extdehumi int32 `json:"extdehumi"`
 }
 
+// Set Thermostat Control relay independently
+type SSRelays struct {
+	W  int32 `json:"W"`
+	W2 int32 `json:"W2"`
+	W3 int32 `json:"W3"`
+	Y  int32 `json:"Y"`
+	Y2 int32 `json:"Y2"`
+	G  int32 `json:"G"`
+	OB int32 `json:"OB"`
+	H  int32 `json:"H"`
+	DH int32 `json:"DH"`
+	EX int32 `json:"EX"`
+}
+
 
 
 

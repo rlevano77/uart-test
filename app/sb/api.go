@@ -160,7 +160,7 @@ func Get_Status() ([]byte,error){
 /*
 	Message 2
 	Set HVAC config setting
-	This function receives an object (dict) with 
+	This function receives an object with 
 	the next signature e.g 
 	config = {
 		'heat_aux_type': 'gas/oil',
@@ -168,6 +168,9 @@ func Get_Status() ([]byte,error){
 		'cool_stage': '1-stage',   				 				
 		'heat_pump_config': 'B'
 	}
+
+	Before and after call this method a Set_Mode("off") has to be called.
+	--------------------------------------------------------------------
 */
 func Set_config_settings(config SSetConfigSettings) ([]byte,error){
 	var err error = nil
@@ -709,6 +712,44 @@ func Get_external_dehumidifier_mode() ([]byte,error){
 	sb_mutex.Lock()
 	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
 		response, err = mget_external_dehumidifier_mode()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 21
+	Control relay independently
+	Operating condition: User mode is OFF, Fan mode is Auto, No humidity control
+
+	Before and after call this method a Set_Mode("off") has to be called.
+	---------------------------------------------------------------------
+ 	Set Thermostat Control relay independently
+             	7  6   5   4    3    2    1    0
+ -----------------------------------------------
+ 	1st byte	  W  W2  W3  Y    Y2   G    O/B  N/A
+ 	2nd byte	  H  DH  EX  N/A  N/A  N/A  N/A  N/A
+
+ This function receives an object with the next signature e.g 
+	relays = {
+		'W' : 1,
+		'W2' : 0,
+		'W3' : 1,
+		'Y' : 1,
+		'Y2' : 0,
+		'G' : 1,
+		'OB' : 0,
+		'H' : 1,
+		'DH' : 0,
+		'EX' : 0
+	}
+*/
+func Set_control_relay(relays SSRelays) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = mset_control_relay(relays)
 	}
 	sb_mutex.Unlock()
 	return response, err	

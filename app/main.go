@@ -466,6 +466,64 @@ func main() {
 		}
 		log.Printf("Get_external_dehumidifier_mode wofan : %s   %v   errors: %d",string(get_ext_dehumidifier_mode_wofan), time.Since(start), sb.Err_cnt)
 
+
+
+		// Relays control
+		log.Println("Setting user mode off")
+		sb.Set_Mode("off")
+		log.Println("Setting fan mode to auto")
+		sb.Set_Fan("auto")
+		log.Println("Set Humidifier Mode off")
+		sb.Set_humidifier_mode("off")
+		log.Println("Set De-Humidifier Mode off")
+		sb.Set_dehumidifier_mode("off")
+		log.Println("Set External De-Humidifier mode off")
+		sb.Set_external_dehumidifier_mode("off")
+		log.Println("Setting user mode to manual")
+		sb.Set_Mode("manual")
+		log.Println("Message Type 21 : W, W2, W3, Y, Y2, G, OB, H, DH, EX ...All HIGH")
+
+		relays := sb.SSRelays { 
+			W :1,  
+			W2 :1, 
+			W3 :1, 
+			Y :1,  
+			Y2 :1,
+			G :1,  
+			OB :1,
+			H :1, 
+			DH :1, 
+			EX :1,
+		}
+		set_relays_one, err := sb.Set_control_relay(relays)
+		if err != nil {
+			log.Println("Error setting control relays to 1")	
+		}
+		log.Printf("Set_control_relay to 1: %s   %v   errors: %d",string(set_relays_one), time.Since(start), sb.Err_cnt)
+
+		relays_zero := sb.SSRelays { 
+			W :0,  
+			W2 :0, 
+			W3 :0, 
+			Y :0,  
+			Y2 :0,
+			G :0,  
+			OB :0,
+			H :0, 
+			DH :0, 
+			EX :0,
+		}
+		set_relays_zero, err := sb.Set_control_relay(relays_zero)
+		if err != nil {
+			log.Println("Error setting control relays to 0")	
+		}
+		log.Printf("Set_control_relay to 0: %s   %v   errors: %d",string(set_relays_zero), time.Since(start), sb.Err_cnt)
+
+
+		sb.Set_Mode("off")
+		sb.Set_Fan("auto")
+
+
 	}
 	
 }
