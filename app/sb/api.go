@@ -773,3 +773,65 @@ func Set_ex_relay(ex string) ([]byte,error){
 	sb_mutex.Unlock()
 	return response, err	
 }
+
+/********************************
+	PSOC5 Cypress Bootloader Load
+********************************/
+func Cyboot_load() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = psoc5_cyboot_load()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 100
+	PIC18 Bootloader - Erase specified page in flash / Set page address point
+	adddress range 0 ~ 399
+*/
+func PIC18boot_erase_set_addr(mode string, addr int32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = hvac_erase_set_page(mode, addr)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 101
+	PIC18 Bootloader
+	Set CRC code of full OTA image
+*/
+func PIC18boot_set_crc_full_ota(crc_H int32, crc_L int32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = hvac_set_crc_full_ota(crc_H, crc_L)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 101
+	PIC18 Bootloader
+	Get CRC code of full OTA image
+*/
+func PIC18boot_get_crc_full_ota() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = hvac_get_crc_full_ota()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}

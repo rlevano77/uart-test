@@ -760,4 +760,82 @@ func validOption(val string, options []string) bool {
 	return res
 }
 
+/********************************
+	PSOC5 Bootloader methods
+********************************/
+
+func psoc5_cyboot_load() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	CYBOOT_LOAD_URI,
+		Cmd:  POST,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+/********************************
+	PIC18 Bootloader methods
+********************************/
+
+/*
+	PIC18 Bootloader - Erase specified page in flash / Set page address point
+	adddress range 0 ~ 399
+*/
+func hvac_erase_set_page(mode string, addr int32) ([]byte,error){
+	if(validOption(mode,page_mode_options)){
+		p, err := json.Marshal(SEraseSet{
+			Mode: mode,
+			Address: addr,
+		})
+		b, err := json.Marshal(SCmd{
+			Uri:	PICBOOT_ERASE_SET_PAGE,
+			Cmd:  POST,
+			Payload: string(p),
+		})
+		if err != nil {
+			log.Printf("Error Marshalling: %v \n", err)
+		}
+		return request(b)
+	} else {
+		panic(errors.New("Wrong option string"))
+	}
+	
+}
+
+/*
+	PIC18 Bootloader - Set CRC code of full OTA image
+*/
+func hvac_set_crc_full_ota(crc_H int32, crc_L int32) ([]byte,error){
+	p, err := json.Marshal(SCRCotaFull{
+		CRCH: crc_H,
+		CRCL: crc_L,
+	})
+	b, err := json.Marshal(SCmd{
+		Uri:	PICBOOT_SET_CRC_FULL_OTA,
+		Cmd:  POST,
+		Payload: string(p),
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+/*
+	PIC18 Bootloader - Get CRC code of full OTA image
+*/
+func hvac_get_crc_full_ota() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	PICBOOT_SET_CRC_FULL_OTA,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
 

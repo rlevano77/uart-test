@@ -100,6 +100,18 @@ type SSRelays struct {
 	EX int32 `json:"EX"`
 }
 
+// Erase specified page in flash / Set page address point
+type SEraseSet struct {
+	Mode    string `json:"mode"`
+	Address int32    `json:"address"`
+}
+
+// Set CRC code of full OTA image
+type SCRCotaFull struct {
+	CRCH int32 `json:"CRC_H"`
+	CRCL int32 `json:"CRC_L"`
+}
+
 
 
 
