@@ -883,3 +883,50 @@ func PIC18boot_upgrade_fw_from_ota() ([]byte,error){
 	sb_mutex.Unlock()
 	return response, err
 }
+
+/*
+	Message 105
+	PIC18 Bootloader
+	GET result of HVAC board firmware upgrading
+*/
+func PIC18boot_get_fw_upgrade_result() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = hvac_get_fw_upgrade_result()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 106
+	PIC18 Bootloader
+	Write 256 bytes value to specified page in flash
+	Initial memory address needs to be set first
+*/
+func pic18boot_write_flash(data int32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = hvac_write_flash(data)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Erase and Write a Page in one call
+*/
+func pic18boot_erase_and_write_flash(data int32) ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = hvac_erase_and_write_flash(data)
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}

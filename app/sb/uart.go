@@ -884,3 +884,49 @@ func hvac_upgrade_fw_from_ota() ([]byte,error){
 	return request(b)
 }
 
+/*
+	PIC18 Bootloader - GET result of HVAC board firmware upgrading
+*/
+func hvac_get_fw_upgrade_result() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	PICBOOT_GET_FW_UPGRADE_RESULT,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+/*
+	Write 256 bytes value to specified page in flash.
+	Page need to be set first
+*/
+func hvac_write_flash(data int32) ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	PICBOOT_WRITE_FLASH,
+		Cmd:  POST,
+		Payload: string(data),
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+/*
+	Erase and Write a Page in one call
+*/
+func hvac_erase_and_write_flash(data int32) ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	PICBOOT_ERASE_WRITE_PAGE,
+		Cmd:  POST,
+		Payload: string(data),
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
