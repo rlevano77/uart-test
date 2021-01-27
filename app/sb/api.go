@@ -835,3 +835,51 @@ func PIC18boot_get_crc_full_ota() ([]byte,error){
 	sb_mutex.Unlock()
 	return response, err	
 }
+
+/*
+	Message 102
+	PIC18 Bootloader
+	GET CRC value of specified page in flash
+*/
+func PIC18boot_get_crc_page() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = hvac_get_crc_page()
+	}
+	sb_mutex.Unlock()
+	return response, err	
+}
+
+/*
+	Message 103
+	PIC18 Bootloader
+	Require HVAC board check OTA image in flash
+*/
+func PIC18boot_check_ota_image() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = hvac_check_ota_image()
+	}
+	sb_mutex.Unlock()
+	return response, err
+}
+
+/*
+	Message 104
+	PIC18 Bootloader
+	Require HVAC board upgrade firmware from OTA image in flash
+*/
+func PIC18boot_upgrade_fw_from_ota() ([]byte,error){
+	var err error = nil
+	var response []byte
+	sb_mutex.Lock()
+	for ((err != nil) || (len(response) == 0) || (validJSON(response) == false)) {
+		response, err = hvac_upgrade_fw_from_ota()
+	}
+	sb_mutex.Unlock()
+	return response, err
+}

@@ -839,3 +839,48 @@ func hvac_get_crc_full_ota() ([]byte,error){
 	return request(b)
 }
 
+/*
+	PIC18 Bootloader - GET CRC value of specified page in flash
+*/
+func hvac_get_crc_page() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	PICBOOT_GET_CRC_PAGE,
+		Cmd:  GET,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+/*
+	PIC18 Bootloader - Check OTA image
+*/
+func hvac_check_ota_image() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	PICBOOT_CHECK_OTA_IMAGE,
+		Cmd:  POST,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
+/*
+	PIC18 Bootloader - Require HVAC board upgrade firmware from OTA image in flash
+*/
+func hvac_upgrade_fw_from_ota() ([]byte,error){
+	b, err := json.Marshal(SCmd{
+		Uri:	PICBOOT_UPGRADE_FW_FROM_OTA,
+		Cmd:  POST,
+		Payload: "",
+	})
+  if err != nil {
+    log.Printf("Error Marshalling: %v \n", err)
+	}
+	return request(b)
+}
+
