@@ -781,6 +781,7 @@ func psoc5_cyboot_load() ([]byte,error){
 ********************************/
 
 /*
+	Message 100
 	PIC18 Bootloader - Erase specified page in flash / Set page address point
 	adddress range 0 ~ 399
 */
@@ -806,10 +807,11 @@ func hvac_erase_set_page(mode string, addr int32) ([]byte,error){
 }
 
 /*
+	Message 101
 	PIC18 Bootloader - Set CRC code of full OTA image
 */
-func hvac_set_crc_full_ota(crc_H int32, crc_L int32) ([]byte,error){
-	p, err := json.Marshal(SCRCotaFull{
+func hvac_set_crc_full_ota(crc_H byte, crc_L byte) ([]byte,error){
+	p, err := json.Marshal(S_CRC{
 		CRCH: crc_H,
 		CRCL: crc_L,
 	})
@@ -825,6 +827,7 @@ func hvac_set_crc_full_ota(crc_H int32, crc_L int32) ([]byte,error){
 }
 
 /*
+	Message 101
 	PIC18 Bootloader - Get CRC code of full OTA image
 */
 func hvac_get_crc_full_ota() ([]byte,error){
@@ -840,6 +843,7 @@ func hvac_get_crc_full_ota() ([]byte,error){
 }
 
 /*
+		Message 102
 	PIC18 Bootloader - GET CRC value of specified page in flash
 */
 func hvac_get_crc_page() ([]byte,error){
@@ -855,6 +859,7 @@ func hvac_get_crc_page() ([]byte,error){
 }
 
 /*
+	Message 103
 	PIC18 Bootloader - Check OTA image
 */
 func hvac_check_ota_image() ([]byte,error){
@@ -870,6 +875,7 @@ func hvac_check_ota_image() ([]byte,error){
 }
 
 /*
+	Message 104
 	PIC18 Bootloader - Require HVAC board upgrade firmware from OTA image in flash
 */
 func hvac_upgrade_fw_from_ota() ([]byte,error){
@@ -885,6 +891,7 @@ func hvac_upgrade_fw_from_ota() ([]byte,error){
 }
 
 /*
+	Message 105
 	PIC18 Bootloader - GET result of HVAC board firmware upgrading
 */
 func hvac_get_fw_upgrade_result() ([]byte,error){
@@ -899,30 +906,22 @@ func hvac_get_fw_upgrade_result() ([]byte,error){
 	return request(b)
 }
 
-/*
-	Write 256 bytes value to specified page in flash.
-	Page need to be set first
-*/
-func hvac_write_flash(data int32) ([]byte,error){
-	b, err := json.Marshal(SCmd{
-		Uri:	PICBOOT_WRITE_FLASH,
-		Cmd:  POST,
-		Payload: string(data),
-	})
-  if err != nil {
-    log.Printf("Error Marshalling: %v \n", err)
-	}
-	return request(b)
-}
 
 /*
 	Erase and Write a Page in one call
 */
-func hvac_erase_and_write_flash(data int32) ([]byte,error){
+func hvac_erase_and_write_flash(page S_Page) ([]byte,error){
+	/*
+	p, err := json.Marshal(S_Page{
+		Idx: page.Idx,
+		Data: page.Data,
+	})
+	*/
+	p, err := json.Marshal(page)
 	b, err := json.Marshal(SCmd{
 		Uri:	PICBOOT_ERASE_WRITE_PAGE,
 		Cmd:  POST,
-		Payload: string(data),
+		Payload: string(p),
 	})
   if err != nil {
     log.Printf("Error Marshalling: %v \n", err)

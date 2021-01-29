@@ -106,11 +106,22 @@ type SEraseSet struct {
 	Address int32    `json:"address"`
 }
 
-// Set CRC code of full OTA image
-type SCRCotaFull struct {
-	CRCH int32 `json:"CRC_H"`
-	CRCL int32 `json:"CRC_L"`
+// CRC struct
+type S_CRC struct {
+	CRCH byte `json:"CRC_H"`
+	CRCL byte `json:"CRC_L"`
 }
+
+type S_QMod struct {
+	Q   int32 `json:"q"`
+	Mod int32 `json:"mod"`
+}
+
+type S_Page struct {
+	Idx  int32    `json:"idx"`
+	Data string `json:"data"`
+}
+
 
 
 

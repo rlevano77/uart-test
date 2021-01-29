@@ -535,6 +535,9 @@ func main() {
 		sb.Set_ex_relay("open")
 
 
+		sb.PIC18_getpages("/ota_test_files/pic18/ota_v0.20.bin")
+
+
 	}
 	
 }
