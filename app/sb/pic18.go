@@ -323,8 +323,8 @@ func PIC18_upload_firmware(bin_file_path string) {
 		success = s.OtaImageStatus
 	}
 
-	log.Println("Delay 20 seconds")
-	time.Sleep(20 * time.Second)
+	log.Println("Delay 60 seconds")
+	time.Sleep(60 * time.Second)
 
 	log.Println(time.Since(start))
 }
