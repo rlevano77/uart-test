@@ -535,7 +535,13 @@ func main() {
 	}
 	*/
 
-	sb.PIC18_upload_firmware("ota_test_files/pic18/ota_v0.20.bin")
+	sb.PIC18_upload_firmware("ota_test_files/pic18/ota_v0.21.bin")
+
+	pic18_version, err := sb.Get_version()
+	if err != nil {
+		log.Println("Error getting pic18_version")	
+	}
+	log.Printf("pic18_version: %s",string(pic18_version))	
 
 
 	
