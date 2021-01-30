@@ -535,7 +535,7 @@ func main() {
 	}
 	*/
 
-	sb.PIC18_getpages("ota_test_files/pic18/ota_v0.20.bin")
+	sb.PIC18_upload_firmware("ota_test_files/pic18/ota_v0.20.bin")
 
 
 	

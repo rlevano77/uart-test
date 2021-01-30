@@ -321,21 +321,4 @@ func PIC18_upload_firmware(bin_file_path string) {
 	log.Println("Delay 10 seconds")
 	time.Sleep(10 * time.Second)
 
-
-
-
-
-
-	
-	log.Println("Require HVAC board upgrade firmware from OTA image in flash")
-	status, err := PIC18boot_upgrade_fw_from_ota()
-	if err != nil {
-		log.Println("Error PIC18boot_upgrade_fw_from_ota()")	
-	}
-	log.Printf("status : %s", string(status))
-
-	log.Println("Delay 60 seconds")
-	time.Sleep(60 * time.Second)
-
-
 }
