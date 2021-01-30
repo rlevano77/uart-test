@@ -198,12 +198,12 @@ func PIC18_getpages(bin_file_path string) []S_Page {
 		stop := block_size*(i+1)
 		arr_slice := arr[start : stop]
 		block_list = append(block_list, arr_slice)   // slicing 256 elements and add them to the blocks_list
-		/*
+		
 		log.Printf("index = %d", i)
 		log.Printf("start = %d", start)
 		log.Printf("stop = %d", stop)
 		log.Printf("len(arr_slice) = %d", len(arr_slice))
-		*/
+		
 	}
 
 	log.Printf("len(block_list) = %d", len(block_list))
@@ -213,10 +213,10 @@ func PIC18_getpages(bin_file_path string) []S_Page {
 	for i := 0; i < int(q); i++ {
 		base64_message := b64.StdEncoding.EncodeToString(block_list[i])
 		b64_arr = append(b64_arr, base64_message)
-		/*
+		
 		log.Printf("len(base64_message) = %d", len(base64_message))
 		log.Printf("base64_message = %s", base64_message)
-		*/
+		
 	}
 
 	// "pages" will hold the S_Page objects generated using b64_arr
@@ -227,10 +227,10 @@ func PIC18_getpages(bin_file_path string) []S_Page {
 			Data: b64_arr[idx],
 		}
 		pages = append(pages, page)
-		/*
+		
 		log.Printf("idx : %d", page.Idx)
 		log.Printf("data : %s", page.Data)
-		*/
+		
 	}           
 
 	return pages
