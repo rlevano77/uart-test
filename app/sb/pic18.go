@@ -4,6 +4,7 @@ import (
 	"os"
 	"io/ioutil"
 	"time"
+	"encoding/json"
 	b64 "encoding/base64"
 	"log"
 )
@@ -257,6 +258,8 @@ func PIC18boot_erase_and_write_flash(page S_Page) ([]byte,error){
 */
 func PIC18_upload_firmware(bin_file_path string) {
 
+	start := time.Now() // To measure execution time
+
 	// Convert the .bin file to Bootload page objects
 	pages, err := PIC18_getpages(bin_file_path)
 	if err != nil {
@@ -307,18 +310,21 @@ func PIC18_upload_firmware(bin_file_path string) {
 	log.Println("Delay 15 seconds")
 	time.Sleep(15 * time.Second)
 
-	sum := 0
+	success := 0
+	var s S_OTAStatus
 	// Wait for PIC18 MCU to upgrade application image
-	for sum < 10 {
+	for success != 136 {
 		status, err := PIC18boot_upgrade_fw_from_ota()
 		if err != nil {
 			log.Println("Error PIC18boot_upgrade_fw_from_ota()")	
 		}
 		log.Printf("status : %s", string(status))
-		sum = sum + 1
+		json.Unmarshal(status, &s)
+		success = s.OtaImageStatus
 	}
 
 	log.Println("Delay 10 seconds")
 	time.Sleep(10 * time.Second)
 
+	log.Println(time.Since(start))
 }

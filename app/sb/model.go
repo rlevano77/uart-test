@@ -123,6 +123,11 @@ type S_Page struct {
 	Data string `json:"data"`
 }
 
+// OTA image status
+type S_OTAStatus struct {
+	OtaImageStatus int `json:"ota_image_status"`
+}
+
 
 
 
