@@ -7,7 +7,8 @@ import (
 var (
 	SERIAL_PORT = "/dev/ttyS0"
 	SERIAL_SPEED = 9600
-	SERIAL_READ_TIMEOUT = 250*time.Millisecond
+	//SERIAL_READ_TIMEOUT = 250*time.Millisecond
+	SERIAL_READ_TIMEOUT = 500*time.Millisecond
 )
 
 // Command Struct
@@ -120,6 +121,11 @@ type S_QMod struct {
 type S_Page struct {
 	Idx  int32    `json:"idx"`
 	Data string `json:"data"`
+}
+
+// OTA image status
+type S_OTAStatus struct {
+	OtaImageStatus int `json:"ota_image_status"`
 }
 
 
