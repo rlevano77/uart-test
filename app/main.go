@@ -18,7 +18,7 @@ func main() {
 	}
 	log.Println("Serial port opened succesfully.")
 
-
+	/*
 	// Polling sensors 
 	go func() {
 		
@@ -31,8 +31,8 @@ func main() {
 		}
 		
 	}()
-
-	// Polling proximity 
+	
+	// Polling proximity
 	go func() {
 		
 		for {
@@ -44,8 +44,8 @@ func main() {
 		}
 		
 	}()
-
-	// Polling iaq 
+	
+	// Polling iaq
 	go func() {
 		
 		for {
@@ -57,8 +57,8 @@ func main() {
 		}
 		
 	}()
-
-	// Polling status 
+	
+	// Polling status
 	go func() {
 		
 		for {
@@ -70,10 +70,9 @@ func main() {
 		}
 		
 	}()
-	
 
 
-	/* Main loop */
+	// Main loop
 	for {
 
 		log.Println("Message 2 : Set HVAC config setting")
@@ -533,11 +532,11 @@ func main() {
 		sb.Set_ex_relay("close")
 		log.Printf("Open EX relay")
 		sb.Set_ex_relay("open")
-
-
-		sb.PIC18_getpages("/ota_test_files/pic18/ota_v0.20.bin")
-
-
 	}
+	*/
+
+	sb.PIC18_upload_firmware("/ota_test_files/pic18/ota_v0.21.bin")
+
+
 	
 }

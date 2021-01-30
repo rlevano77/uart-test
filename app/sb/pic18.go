@@ -3,6 +3,7 @@ package sb
 import (
 	"os"
 	"io/ioutil"
+	"time"
 	b64 "encoding/base64"
 	"log"
 )
@@ -247,4 +248,61 @@ func PIC18boot_erase_and_write_flash(page S_Page) ([]byte,error){
 	}
 	sb_mutex.Unlock()
 	return response, err	
+}
+
+/* 
+	Upload Firmware (.bin file) to the HVAC Board PIC18
+*/
+func PIC18_upload_firmware(bin_file_path string) {
+
+	// Convert the .bin file to Bootload page objects
+	pages := PIC18_getpages(bin_file_path)
+	log.Printf("len(pages) : %d", len(pages))
+
+	// Send page by page data and compare page's CRC
+	for i := 0; i < len(pages); i++ {
+		log.Printf("Sending page : %d", i)
+		PIC18boot_erase_and_write_flash(pages[i])
+	}
+
+	// Calculate CRC of entire OTA image
+	log.Printf("Calculate CRC of entire OTA image")
+	bytes_read, err := ioutil.ReadFile(bin_file_path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	oat_crc := CRC(bytes_read)
+	log.Printf("CRC_H : %d",oat_crc.CRCH)
+	log.Printf("CRC_L : %d",oat_crc.CRCL)
+
+	log.Printf("Set CRC of entire OTA image")
+	PIC18boot_set_crc_full_ota(oat_crc.CRCH, oat_crc.CRCL)
+	log.Printf("Reading back CRC of entire OTA image")
+	crc_page_read, err := PIC18boot_get_crc_full_ota()
+	if err != nil {
+		log.Println("Error CRC of entire OTA image")	
+	}
+	log.Printf("CRC of entire OTA image : %s", string(crc_page_read))
+
+	log.Println("Require HVAC board check OTA image in flash")
+	check_ota_image, err := PIC18boot_check_ota_image()
+	if err != nil {
+		log.Println("Error PIC18boot_check_ota_image()")	
+	}
+	log.Printf("PIC18boot_check_ota_image : %s", string(check_ota_image))
+
+	log.Println("Delay 15 seconds")
+	time.Sleep(15 * time.Second)
+	
+	log.Println("Require HVAC board upgrade firmware from OTA image in flash")
+	status, err := PIC18boot_upgrade_fw_from_ota()
+	if err != nil {
+		log.Println("Error PIC18boot_upgrade_fw_from_ota()")	
+	}
+	log.Printf("status : %s", string(status))
+
+	log.Println("Delay 60 seconds")
+	time.Sleep(60 * time.Second)
+
+
 }
