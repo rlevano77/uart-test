@@ -230,10 +230,10 @@ func PIC18_getpages(bin_file_path string) ([]S_Page, error) {
 			Data: b64_arr[idx],
 		}
 		pages = append(pages, page)
-		
+		/*
 		log.Printf("idx : %d", page.Idx)
 		log.Printf("data : %s", page.Data)
-		
+		*/
 	}           
 
 	return pages, err
@@ -307,8 +307,8 @@ func PIC18_upload_firmware(bin_file_path string) {
 	}
 	log.Printf("PIC18boot_check_ota_image : %s", string(check_ota_image))
 
-	log.Println("Delay 15 seconds")
-	time.Sleep(15 * time.Second)
+	//log.Println("Delay 15 seconds")
+	//time.Sleep(15 * time.Second)
 
 	success := 0
 	var s S_OTAStatus
