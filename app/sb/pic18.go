@@ -167,13 +167,14 @@ func Divmod(x int32, y int32) S_QMod {
 /*
 	Calculates an Array of pages to be send in the PIC18 Bootload process
 */
-func PIC18_getpages(bin_file_path string) []S_Page {
+func PIC18_getpages(bin_file_path string) ([]S_Page, error) {
 	block_size := 256
 
 	// File stats
 	info, err := os.Stat(bin_file_path)
 	if err != nil {
-		log.Printf("Error reading file stat: %v \n", err)
+		log.Printf("Error getting file stat: %v \n", err)
+		return []S_Page{}, err
 	}
 	file_size := info.Size()
 	log.Printf("file size = %d", file_size)
@@ -187,7 +188,8 @@ func PIC18_getpages(bin_file_path string) []S_Page {
 	// "arr" array will storage all bytes read from file (This assumes remaider = 0)
 	arr, err := ioutil.ReadFile(bin_file_path)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("Error reading file: %v \n", err)
+		return []S_Page{}, err
 	}
 	log.Printf("len(arr) = %d", len(arr))
 
@@ -198,12 +200,12 @@ func PIC18_getpages(bin_file_path string) []S_Page {
 		stop := block_size*(i+1)
 		arr_slice := arr[start : stop]
 		block_list = append(block_list, arr_slice)   // slicing 256 elements and add them to the blocks_list
-		
+		/*
 		log.Printf("index = %d", i)
 		log.Printf("start = %d", start)
 		log.Printf("stop = %d", stop)
 		log.Printf("len(arr_slice) = %d", len(arr_slice))
-		
+		*/
 	}
 
 	log.Printf("len(block_list) = %d", len(block_list))
@@ -213,10 +215,10 @@ func PIC18_getpages(bin_file_path string) []S_Page {
 	for i := 0; i < int(q); i++ {
 		base64_message := b64.StdEncoding.EncodeToString(block_list[i])
 		b64_arr = append(b64_arr, base64_message)
-		
+		/*
 		log.Printf("len(base64_message) = %d", len(base64_message))
 		log.Printf("base64_message = %s", base64_message)
-		
+		*/
 	}
 
 	// "pages" will hold the S_Page objects generated using b64_arr
@@ -233,7 +235,7 @@ func PIC18_getpages(bin_file_path string) []S_Page {
 		
 	}           
 
-	return pages
+	return pages, err
 }
 
 /*
@@ -256,27 +258,38 @@ func PIC18boot_erase_and_write_flash(page S_Page) ([]byte,error){
 func PIC18_upload_firmware(bin_file_path string) {
 
 	// Convert the .bin file to Bootload page objects
-	pages := PIC18_getpages(bin_file_path)
+	pages, err := PIC18_getpages(bin_file_path)
+	if err != nil {
+    log.Printf("Error PIC18_getpages: %v \n", err)
+	}
 	log.Printf("len(pages) : %d", len(pages))
 
 	// Send page by page data and compare page's CRC
 	for i := 0; i < len(pages); i++ {
-		log.Printf("Sending page : %d", i)
-		PIC18boot_erase_and_write_flash(pages[i])
+		erase_write, err := PIC18boot_erase_and_write_flash(pages[i])
+		if err != nil {
+			log.Println("Error erase_write")	
+		}
+		log.Printf("Sending page %d : %s", i, string(erase_write))
 	}
 
 	// Calculate CRC of entire OTA image
 	log.Printf("Calculate CRC of entire OTA image")
 	bytes_read, err := ioutil.ReadFile(bin_file_path)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("Error reading file: %v \n", err)
 	}
 	oat_crc := CRC(bytes_read)
 	log.Printf("CRC_H : %d",oat_crc.CRCH)
 	log.Printf("CRC_L : %d",oat_crc.CRCL)
 
 	log.Printf("Set CRC of entire OTA image")
-	PIC18boot_set_crc_full_ota(oat_crc.CRCH, oat_crc.CRCL)
+	set_crc_full_ota, err := PIC18boot_set_crc_full_ota(oat_crc.CRCH, oat_crc.CRCL)
+	if err != nil {
+		log.Printf("Error PIC18boot_set_crc_full_ota: %v \n", err)
+	}
+	log.Printf("PIC18boot_set_crc_full_ota: %s",string(set_crc_full_ota))
+
 	log.Printf("Reading back CRC of entire OTA image")
 	crc_page_read, err := PIC18boot_get_crc_full_ota()
 	if err != nil {
@@ -293,6 +306,26 @@ func PIC18_upload_firmware(bin_file_path string) {
 
 	log.Println("Delay 15 seconds")
 	time.Sleep(15 * time.Second)
+
+	sum := 0
+	// Wait for PIC18 MCU to upgrade application image
+	for sum < 10 {
+		status, err := PIC18boot_upgrade_fw_from_ota()
+		if err != nil {
+			log.Println("Error PIC18boot_upgrade_fw_from_ota()")	
+		}
+		log.Printf("status : %s", string(status))
+		sum = sum + 1
+	}
+
+	log.Println("Delay 10 seconds")
+	time.Sleep(10 * time.Second)
+
+
+
+
+
+
 	
 	log.Println("Require HVAC board upgrade firmware from OTA image in flash")
 	status, err := PIC18boot_upgrade_fw_from_ota()
