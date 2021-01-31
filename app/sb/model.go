@@ -7,8 +7,8 @@ import (
 var (
 	SERIAL_PORT = "/dev/ttyS0"
 	SERIAL_SPEED = 9600
-	//SERIAL_READ_TIMEOUT = 250*time.Millisecond
-	SERIAL_READ_TIMEOUT = 500*time.Millisecond
+	SERIAL_READ_TIMEOUT = 250*time.Millisecond
+	PIC18_SERIAL_READ_TIMEOUT = 500*time.Millisecond
 )
 
 // Command Struct

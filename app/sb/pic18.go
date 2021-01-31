@@ -1,6 +1,7 @@
 package sb
 
 import (
+	"github.com/tarm/serial"
 	"os"
 	"io/ioutil"
 	"time"
@@ -258,6 +259,21 @@ func PIC18boot_erase_and_write_flash(page S_Page) ([]byte,error){
 */
 func PIC18_upload_firmware(bin_file_path string) {
 
+	//=====================================================================================================
+	// Close fast serial port
+	serial_port.Close()
+	time.Sleep(1 * time.Second) // Waiting for hw serial port to close
+
+	// Reopen serial port with slower speed for bootloading only
+	log.Println("Reopen serial port with slower speed for bootloading only.")
+	c := &serial.Config{Name: SERIAL_PORT, Baud: SERIAL_SPEED, ReadTimeout: PIC18_SERIAL_READ_TIMEOUT}
+	ser, err := serial.OpenPort(c)
+	if err != nil {
+		log.Printf("Error new serial port for bootloading only: %v \n", err)
+	}
+	serial_port = ser
+	//=====================================================================================================
+
 	start := time.Now() // To measure execution time
 
 	// Convert the .bin file to Bootload page objects
@@ -327,4 +343,18 @@ func PIC18_upload_firmware(bin_file_path string) {
 	time.Sleep(60 * time.Second)
 
 	log.Println(time.Since(start))
+
+	//========================================================================
+	// Closing slow bootloader serial port
+	serial_port.Close()
+	time.Sleep(1 * time.Second) // Waiting for hw serial port to close
+
+	// Reopen normal faster serial port
+	log.Println("Reopen normal faster serial port.")
+	err = Open()
+	if err != nil {
+		log.Println("Error opening serialport.")
+	}
+	log.Println("Serial port opened succesfully.")
+	//========================================================================
 }
